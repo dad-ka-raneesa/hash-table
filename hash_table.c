@@ -34,3 +34,23 @@ void insert(int key, int value, h_table_ptr hash_table)
 
   hash_table->data[index] = hash_item;
 }
+
+h_item_ptr search(int key, h_table_ptr hash_table)
+{
+  int index = hash_function(key, hash_table->size);
+  h_item_ptr result = NULL;
+  h_item_ptr current_item = hash_table->data[index];
+  int is_found = 0;
+  while (current_item != NULL && !is_found)
+  {
+    if (current_item->key == key)
+    {
+      result = current_item;
+      is_found = 1;
+    }
+    index++;
+    index %= hash_table->size;
+    current_item = hash_table->data[index];
+  }
+  return result;
+}
