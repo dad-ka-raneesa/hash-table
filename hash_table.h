@@ -24,5 +24,6 @@ h_item_ptr create_h_item(int key, int value);
 h_table_ptr create_h_table(int size);
 void insert(int key, int value, h_table_ptr hash_table);
 h_item_ptr search(int key, h_table_ptr hash_table);
+h_item_ptr delete (int key, h_table_ptr hash_table);
 
 #endif

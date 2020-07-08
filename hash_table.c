@@ -54,3 +54,22 @@ h_item_ptr search(int key, h_table_ptr hash_table)
   }
   return result;
 }
+
+h_item_ptr delete (int key, h_table_ptr hash_table)
+{
+  int index = hash_function(key, hash_table->size);
+  h_item_ptr result = NULL;
+  int is_found = 0;
+  while (hash_table->data[index] != NULL && !is_found)
+  {
+    if (hash_table->data[index]->key == key)
+    {
+      is_found = 1;
+      result = hash_table->data[index];
+      hash_table->data[index] = NULL;
+    }
+    index++;
+    index %= hash_table->size;
+  }
+  return result;
+}

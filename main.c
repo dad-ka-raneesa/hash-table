@@ -35,5 +35,9 @@ int main(void)
   printf("\nSearch : \n");
   display_h_item(search(23, hash_table));
   display_h_item(search(3, hash_table));
+  printf("\nDeleting : \n");
+  display_h_item(delete (23, hash_table));
+  printf("\nModified hash table : \n");
+  display_h_table(hash_table);
   return 0;
 }
