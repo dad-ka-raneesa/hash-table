@@ -26,7 +26,7 @@ void insert(int key, int value, h_table_ptr hash_table)
   h_item_ptr hash_item = create_h_item(key, value);
   int index = hash_function(key, hash_table->size);
 
-  while (hash_table->data[index] != NULL)
+  while (hash_table->data[index] != NULL && hash_table->data[index]->key != key)
   {
     index++;
     index %= hash_table->size;

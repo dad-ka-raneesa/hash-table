@@ -30,6 +30,7 @@ int main(void)
   insert(90, 40, hash_table);
   insert(65, 50, hash_table);
   insert(23, 60, hash_table);
+  insert(23, 1093, hash_table);
   printf("\nHash table : \n");
   display_h_table(hash_table);
   printf("\nSearch : \n");
