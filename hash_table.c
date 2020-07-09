@@ -1,75 +1,47 @@
 #include "hash_table.h"
 
-h_item_ptr create_h_item(int key, int value)
+Hash_Table_Ptr create_hash_table(int size)
 {
-  h_item_ptr new_h_item = malloc(sizeof(h_item));
-  new_h_item->key = key;
-  new_h_item->value = value;
-  return new_h_item;
+  Hash_Table_Ptr hash_table = malloc(sizeof(Hash_Table));
+  hash_table->size = size;
+  hash_table->items = malloc(sizeof(Hash_List_Ptr) * size);
+  return hash_table;
 }
 
-h_table_ptr create_h_table(int size)
-{
-  h_table_ptr new_h_table = malloc(sizeof(h_table));
-  new_h_table->size = size;
-  new_h_table->data = malloc(sizeof(h_item_ptr) * size);
-  return new_h_table;
-}
-
-int hash_function(key, size)
+int hash_function(int key, int size)
 {
   return key % size;
 }
 
-void insert(int key, int value, h_table_ptr hash_table)
+void insert(int key, int value, Hash_Table_Ptr table)
 {
-  h_item_ptr hash_item = create_h_item(key, value);
-  int index = hash_function(key, hash_table->size);
-
-  while (hash_table->data[index] != NULL && hash_table->data[index]->key != key)
+  int array_index = hash_function(key, table->size);
+  if (table->items[array_index] == NULL)
   {
-    index++;
-    index %= hash_table->size;
+    table->items[array_index] = create_hash_list();
   }
-
-  hash_table->data[index] = hash_item;
+  add_to_hash_list(key, value, table->items[array_index]);
 }
 
-h_item_ptr search(int key, h_table_ptr hash_table)
+Hash_Item_Ptr search(int key, Hash_Table_Ptr table)
 {
-  int index = hash_function(key, hash_table->size);
-  h_item_ptr result = NULL;
-  h_item_ptr current_item = hash_table->data[index];
-  int is_found = 0;
-  while (current_item != NULL && !is_found)
-  {
-    if (current_item->key == key)
-    {
-      result = current_item;
-      is_found = 1;
-    }
-    index++;
-    index %= hash_table->size;
-    current_item = hash_table->data[index];
-  }
-  return result;
+  int array_index = hash_function(key, table->size);
+  Hash_Item_Ptr searching_item = get_hash_item_of(table->items[array_index], key);
+  return searching_item;
 }
 
-h_item_ptr delete (int key, h_table_ptr hash_table)
+Hash_Item_Ptr delete (int key, Hash_Table_Ptr table)
 {
-  int index = hash_function(key, hash_table->size);
-  h_item_ptr result = NULL;
-  int is_found = 0;
-  while (hash_table->data[index] != NULL && !is_found)
+  int array_index = hash_function(key, table->size);
+  Hash_Item_Ptr item_deleted = remove_from_hash_list(table->items[array_index], key);
+  return item_deleted;
+}
+
+void display_hash_table(Hash_Table_Ptr table)
+{
+  for (int i = 0; i < table->size; i++)
   {
-    if (hash_table->data[index]->key == key)
-    {
-      is_found = 1;
-      result = hash_table->data[index];
-      hash_table->data[index] = NULL;
-    }
-    index++;
-    index %= hash_table->size;
+    printf("Index = %2d , ", i);
+    display_hash_list(table->items[i]);
   }
-  return result;
 }

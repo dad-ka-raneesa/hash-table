@@ -1,29 +1,24 @@
-#ifndef __HASH_TABLE_h_
-#define __HASH_TABLE_h_
+#ifndef __HASH_TABLE_H__
+#define __HASH_TABLE_H__
 
-#include <stdio.h>
-#include <stdlib.h>
+#include "hash_list.h"
 
-typedef struct
-{
-  int key;
-  int value;
-} h_item;
-
-typedef h_item *h_item_ptr;
-
-typedef struct
+typedef struct hash_table
 {
   int size;
-  h_item_ptr *data;
-} h_table;
+  Hash_List_Ptr *items;
+} Hash_Table;
 
-typedef h_table *h_table_ptr;
+typedef Hash_Table *Hash_Table_Ptr;
 
-h_item_ptr create_h_item(int key, int value);
-h_table_ptr create_h_table(int size);
-void insert(int key, int value, h_table_ptr hash_table);
-h_item_ptr search(int key, h_table_ptr hash_table);
-h_item_ptr delete (int key, h_table_ptr hash_table);
+Hash_Table_Ptr create_hash_table(int size);
+
+int hash_function(int key, int size);
+
+void insert(int key, int value, Hash_Table_Ptr table);
+Hash_Item_Ptr search(int key, Hash_Table_Ptr table);
+Hash_Item_Ptr delete (int key, Hash_Table_Ptr table);
+
+void display_hash_table(Hash_Table_Ptr table);
 
 #endif
